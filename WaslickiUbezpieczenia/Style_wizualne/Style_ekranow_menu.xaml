@@ -1,0 +1,323 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ikony="clr-namespace:WaslickiUbezpieczenia.Ikony"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:converters="clr-namespace:WaslickiUbezpieczenia.Style_wizualne.Converters"
+                    xmlns:converters1="clr-namespace:WaslickiUbezpieczenia.Style_wizualne.Converters">
+
+    <!-- Style elementóew wspólne dla wszystkich stron/okien zawierających menu w stylu menu głównego-->
+
+    <!-- Hiperlink - pozycja menu -->
+    <Style TargetType="{x:Type Hyperlink}">
+        <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+        <Setter Property="BaselineAlignment" Value="Center" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Ikonka przy pozycji menu -->
+    <Style TargetType="{x:Type Image}">
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="Fant"/>
+    </Style>
+
+    <!-- Nagłówek sekcji menu -->
+    <Style x:Key="Naglowek_sekcji_menu" TargetType="{x:Type Label}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="15,0,0,3" />
+        <Setter Property="Background" Value="#FF00458D" />
+        <!-- Kolor "Mostostalowski" niebieski -->
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <!-- Pole TextBox z placeholder-em -->
+    <Style x:Key="placeholder" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+        <!--<Setter Property="Margin" Value="5" />-->
+        <Setter Property="Padding" Value="15,0,0,3" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Grid>
+                        <TextBox Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 x:Name="textSource" Background="Transparent" Panel.ZIndex="2" ToolTip="{TemplateBinding Tag}"
+                                 VerticalContentAlignment="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 HorizontalContentAlignment="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 TextWrapping="{Binding Path=TextWrapping, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 TextAlignment="{Binding Path=TextAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Text="{TemplateBinding Tag}" Background="{TemplateBinding Background}" Panel.ZIndex="1" 
+                                 HorizontalContentAlignment="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 VerticalContentAlignment="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="Foreground" Value="Transparent"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Text, Source={x:Reference textSource}}" Value="">
+                                            <Setter Property="Foreground" Value="LightGray"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Pole TextBox z placeholder-em + ramka czerwona gdy puste-->
+    <Style x:Key="placeholder_ramka" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="15,0,0,3" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Grid>
+                        <TextBox Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 VerticalContentAlignment="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}"
+                                 x:Name="textSource" Background="Transparent" Panel.ZIndex="2" ToolTip="{TemplateBinding Tag}" TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                            <Setter Property="BorderBrush" Value="Red"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                            <Setter Property="BorderBrush" Value="Red"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <TextBox Text="{TemplateBinding Tag}" Background="{TemplateBinding Background}" Panel.ZIndex="1" VerticalContentAlignment="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.Style>
+                                <Style TargetType="{x:Type TextBox}">
+                                    <Setter Property="Foreground" Value="Transparent"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Text, Source={x:Reference textSource}}" Value="">
+                                            <Setter Property="Foreground" Value="LightGray"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Przycisk-->
+    <Style x:Key="ProtonPrzycisk" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="50"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="ramka" BorderBrush="#9900458D">
+                        <Grid Name="Main" Width="Auto" Background="#00000000">
+                            <!--Background ustawione aby przycisk był łapany jako prostokąt po całości-->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="46" />
+                                <RowDefinition Height="35"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" VerticalAlignment="Center">
+                                <Image x:Name="img" Source="{Binding Path=(ikony:ObslugaIkonyPrzycisku.Image), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" RenderOptions.BitmapScalingMode="Fant" Width="35"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1">
+                                <TextBlock x:Name="tb_text1" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="11"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="Main" Value="#3300458D"/>
+                            <Setter Property="FontWeight" TargetName="tb_text1" Value="Bold"/>
+                            <Setter Property="FontSize" TargetName="tb_text1" Value="12"/>
+                            <Setter Property="Width" TargetName="img" Value="40"/>
+                            <Setter Property="BorderThickness" TargetName="ramka" Value="0.5,0,0.5,0"/>
+                        </Trigger>
+                        <Trigger Property="Button.IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="Main" Value="#7F0C78AA"/>
+                            <Setter Property="FontWeight" TargetName="tb_text1" Value="Bold"/>
+                            <Setter Property="FontSize" TargetName="tb_text1" Value="11"/>
+                            <Setter Property="Width" TargetName="img" Value="35"/>
+                            <Setter Property="BorderThickness" TargetName="ramka" Value="1,0,1,0"/>
+                        </Trigger>
+                        <Trigger Property="Button.IsEnabled" Value="False">
+                            <Setter Property="TextBlock.Foreground" TargetName="tb_text1" Value="#7F000000"/>
+                            <Setter Property="OpacityMask" TargetName="img" Value="#7F000000"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Przycisk z obrazkiem - elastyczny-->
+    <Style x:Key="Proton_przycisk_elastyczny" TargetType="{x:Type Button}">
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="ramka" BorderBrush="#9900458D">
+                        <Grid Name="Main" Width="Auto" Background="#00000000">
+                            <!--Background ustawione aby przycisk był łapany jako prostokąt po całości-->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="0.8*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" VerticalAlignment="Center">
+                                <Image x:Name="img" Source="{Binding Path=(ikony:ObslugaIkonyPrzycisku.Image), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" RenderOptions.BitmapScalingMode="Fant" Width="35"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1">
+                                <TextBlock x:Name="tb_text1" Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="9"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="Main" Value="#00000000"/>
+                            <Setter Property="FontWeight" TargetName="tb_text1" Value="Bold"/>
+                            <Setter Property="FontSize" TargetName="tb_text1" Value="12"/>
+                            <Setter Property="Width" TargetName="img" Value="40"/>
+                        </Trigger>
+                        <Trigger Property="Button.IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="Main" Value="#00000000"/>
+                            <Setter Property="FontWeight" TargetName="tb_text1" Value="Bold"/>
+                            <Setter Property="FontSize" TargetName="tb_text1" Value="9"/>
+                            <Setter Property="Width" TargetName="img" Value="35"/>
+                        </Trigger>
+                        <Trigger Property="Button.IsEnabled" Value="False">
+                            <Setter Property="TextBlock.Foreground" TargetName="tb_text1" Value="#7F000000"/>
+                            <Setter Property="OpacityMask" TargetName="img" Value="#7F000000"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Przycisk z obrazkiem - dg-->
+    <Style x:Key="Proton_przycisk_dg" TargetType="{x:Type Button}">
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="ramka" BorderBrush="#9900458D">
+                        <Grid Name="Main" Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" Height="Auto" Background="#00000000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}">
+                            <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image x:Name="img" Source="{Binding Path=(ikony:ObslugaIkonyPrzycisku.Image), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" RenderOptions.BitmapScalingMode="Fant">
+                                    <Image.Width>
+                                        <Binding Path="ActualWidth" 
+                                                 RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}">
+                                            <Binding.Converter>
+                                                <converters:Przycisk_size_minus_5 />
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </Image.Width>
+                                </Image>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="Main" Value="#00000000"/>
+                            <Setter Property="Width" TargetName="img">
+                                <Setter.Value>
+                                    <Binding Path="ActualWidth" 
+                                             Mode="OneWay" 
+                                             ElementName="Main">
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="Button.IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="Main" Value="#00000000"/>
+                            <Setter Property="Width" TargetName="img">
+                                <Setter.Value>
+                                    <Binding Path="ActualWidth" 
+                                             Mode="OneWay" 
+                                             ElementName="Main">
+                                        <Binding.Converter>
+                                            <converters1:Przycisk_size_minus_5 />
+                                        </Binding.Converter>
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="Button.IsEnabled" Value="False">
+                            <Setter Property="OpacityMask" TargetName="img" Value="#7F000000"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--naglowek-->
+    <Style x:Key="Naglowek_CT" TargetType="{x:Type ContentControl}">
+        <Setter Property="Height" Value="81"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Grid.ColumnSpan" Value="4"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid Height="81" VerticalAlignment="Top" Background="GhostWhite">
+                        <Border BorderBrush="#FF688CAD" BorderThickness="1"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="226"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border>
+                                <Border.Style>
+                                    <Style>
+                                        <Setter Property="Grid.Column" Value="0"/>
+                                        <Setter Property="Border.BorderThickness" Value="0,0,1,0"/>
+                                        <Setter Property="Border.BorderBrush" Value="#FF688CAD"/>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+
+                            <Image>
+                                <Image.Style>
+                                    <Style>
+                                        <Setter Property="Grid.Column" Value="0"/>
+                                        <Setter Property="Image.HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="Image.Height" Value="61"/>
+                                        <Setter Property="Image.VerticalAlignment" Value="Top"/>
+                                        <Setter Property="Image.Width" Value="210"/>
+                                        <Setter Property="Image.Source" Value="/WaslickiUbezpieczenia;component/Ikony/logo-placeholder.jpg"/>
+                                        <Setter Property="Image.Margin" Value="8,10,0,0"/>
+                                        <Setter Property="RenderOptions.BitmapScalingMode" Value="Fant"/>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

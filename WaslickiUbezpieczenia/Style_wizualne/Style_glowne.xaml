@@ -1,0 +1,387 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:klasy="clr-namespace:WaslickiUbezpieczenia.Klasy"
+                    mc:Ignorable="d">
+
+    <!-- Style elementóew wspólne dla wszystkich stron/okien prezentujących dane -->
+
+
+    <!--Style przycisku-->
+    <Style x:Key="Flat">
+        <Setter Property="Control.Background" Value="{x:Null}" />
+        <Setter Property="Control.BorderBrush" Value="{x:Null}" />
+        <Style.Triggers>
+            <Trigger Property="Control.IsMouseOver" Value="True">
+                <Setter Property="Control.Background" Value="{x:Null}" />
+                <Setter Property="Control.BorderBrush" Value="{x:Null}" />
+                <Setter Property="Control.FontWeight" Value="Bold" />
+            </Trigger>
+            <Trigger Property="Control.IsFocused" Value="True">
+                <Setter Property="Control.FontWeight" Value="Bold" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--Styl dla okna wyboru daty - strzałka zamiast ikonki kalendarza-->
+    <Style x:Key="DatePickerStyle1" TargetType="{x:Type DatePicker}">
+        <Setter Property="Foreground" Value="#FF333333"/>
+        <Setter Property="IsTodayHighlighted" Value="True"/>
+        <Setter Property="SelectedDateFormat" Value="Short"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint=".5,0" StartPoint=".5,1">
+                    <GradientStop Color="#FFA3AEB9" Offset="0"/>
+                    <GradientStop Color="#FF8399A9" Offset="0.375"/>
+                    <GradientStop Color="#FF718597" Offset="0.375"/>
+                    <GradientStop Color="#FF617584" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DatePicker}">
+                    <Border BorderBrush="#FFABADB3" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_DisabledVisual"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="PART_Root" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <Grid.Resources>
+                                <SolidColorBrush x:Key="DisabledBrush" Color="#A5FFFFFF"/>
+                                <ControlTemplate x:Key="DropDownButtonTemplate" TargetType="{x:Type Button}">
+                                    <Grid>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualStateGroup.Transitions>
+                                                    <VisualTransition GeneratedDuration="0"/>
+                                                    <VisualTransition GeneratedDuration="0:0:0.1" To="MouseOver"/>
+                                                    <VisualTransition GeneratedDuration="0:0:0.1" To="Pressed"/>
+                                                </VisualStateGroup.Transitions>
+                                                <VisualState x:Name="Normal"/>
+                                                <VisualState x:Name="MouseOver"/>
+                                                <VisualState x:Name="Pressed"/>
+                                                <VisualState x:Name="Disabled"/>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <Grid Background="#11FFFFFF" FlowDirection="LeftToRight" HorizontalAlignment="Center" Height="18" Margin="0" VerticalAlignment="Center" Width="19">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20*"/>
+                                                <ColumnDefinition Width="20*"/>
+                                                <ColumnDefinition Width="20*"/>
+                                                <ColumnDefinition Width="20*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="23*"/>
+                                                <RowDefinition Height="19*"/>
+                                                <RowDefinition Height="19*"/>
+                                                <RowDefinition Height="19*"/>
+                                            </Grid.RowDefinitions>
+                                            <Path x:Name="path" Data="M4.8012264,8.3338343 L9.250558,13.5315 13.719928,8.2921677" HorizontalAlignment="Left" Height="5.739" Margin="0,2.325,0,0" Stretch="Fill" StrokeThickness="1.2" VerticalAlignment="Top" Width="9.416" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="1" Stroke="#FF9F9F9F" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Grid.Row="1"/>
+                                        </Grid>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="PART_Button" Grid.Column="1" Foreground="{TemplateBinding Foreground}" Focusable="False" HorizontalAlignment="Left" Margin="3,0,3,0" Grid.Row="0" Template="{StaticResource DropDownButtonTemplate}" VerticalAlignment="Top" Width="20"/>
+                            <DatePickerTextBox x:Name="PART_TextBox" Grid.Column="0" Focusable="{TemplateBinding Focusable}" HorizontalContentAlignment="Stretch" Grid.Row="0" VerticalContentAlignment="Stretch" d:IsHidden="True"/>
+                            <Grid x:Name="PART_DisabledVisual" Grid.ColumnSpan="2" Grid.Column="0" IsHitTestVisible="False" Opacity="0" Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Column="0" Fill="#A5FFFFFF" RadiusY="1" Grid.Row="0" RadiusX="1"/>
+                                <Rectangle Grid.Column="1" Fill="#A5FFFFFF" Height="18" Margin="3,0,3,0" RadiusY="1" Grid.Row="0" RadiusX="1" Width="19"/>
+                                <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" PlacementTarget="{Binding ElementName=PART_TextBox}" StaysOpen="False"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Source={x:Static SystemParameters.HighContrast}}" Value="false">
+                            <Setter Property="Foreground" TargetName="PART_TextBox" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Styl dla okna wyboru daty - strzałka zamiast ikonki kalendarza + centrowanie-->
+    <Style x:Key="DatePickerStyle1_center" TargetType="{x:Type DatePicker}">
+        <Setter Property="Foreground" Value="#FF333333"/>
+        <Setter Property="IsTodayHighlighted" Value="True"/>
+        <Setter Property="SelectedDateFormat" Value="Short"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint=".5,0" StartPoint=".5,1">
+                    <GradientStop Color="#FFA3AEB9" Offset="0"/>
+                    <GradientStop Color="#FF8399A9" Offset="0.375"/>
+                    <GradientStop Color="#FF718597" Offset="0.375"/>
+                    <GradientStop Color="#FF617584" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DatePicker}">
+                    <Border BorderBrush="#FFABADB3" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_DisabledVisual"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="PART_Root" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <Grid.Resources>
+                                <SolidColorBrush x:Key="DisabledBrush" Color="#A5FFFFFF"/>
+                                <ControlTemplate x:Key="DropDownButtonTemplate" TargetType="{x:Type Button}">
+                                    <Grid>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualStateGroup.Transitions>
+                                                    <VisualTransition GeneratedDuration="0"/>
+                                                    <VisualTransition GeneratedDuration="0:0:0.1" To="MouseOver"/>
+                                                    <VisualTransition GeneratedDuration="0:0:0.1" To="Pressed"/>
+                                                </VisualStateGroup.Transitions>
+                                                <VisualState x:Name="Normal"/>
+                                                <VisualState x:Name="MouseOver"/>
+                                                <VisualState x:Name="Pressed"/>
+                                                <VisualState x:Name="Disabled"/>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <Grid Background="#11FFFFFF" FlowDirection="LeftToRight" HorizontalAlignment="Center" Height="18" Margin="0" VerticalAlignment="Center" Width="19">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20*"/>
+                                                <ColumnDefinition Width="20*"/>
+                                                <ColumnDefinition Width="20*"/>
+                                                <ColumnDefinition Width="20*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="23*"/>
+                                                <RowDefinition Height="19*"/>
+                                                <RowDefinition Height="19*"/>
+                                                <RowDefinition Height="19*"/>
+                                            </Grid.RowDefinitions>
+                                            <Path x:Name="path" Data="M4.8012264,8.3338343 L9.250558,13.5315 13.719928,8.2921677" HorizontalAlignment="Left" Height="5.739" Margin="0,2.325,0,0" Stretch="Fill" StrokeThickness="1.2" VerticalAlignment="Top" Width="9.416" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="1" Stroke="#FF9F9F9F" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Grid.Row="1"/>
+                                        </Grid>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="PART_Button" Grid.Column="1" Foreground="{TemplateBinding Foreground}" Focusable="False" HorizontalAlignment="Left" Margin="3,0,3,0" Grid.Row="0" Template="{StaticResource DropDownButtonTemplate}" VerticalAlignment="Top" Width="20"/>
+                            <DatePickerTextBox x:Name="PART_TextBox" Grid.Column="0" Focusable="{TemplateBinding Focusable}" HorizontalContentAlignment="Center" Grid.Row="0" VerticalContentAlignment="Stretch"/>
+                            <Grid x:Name="PART_DisabledVisual" Grid.ColumnSpan="2" Grid.Column="0" IsHitTestVisible="False" Opacity="0" Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Column="0" Fill="#A5FFFFFF" RadiusY="1" Grid.Row="0" RadiusX="1"/>
+                                <Rectangle Grid.Column="1" Fill="#A5FFFFFF" Height="18" Margin="3,0,3,0" RadiusY="1" Grid.Row="0" RadiusX="1" Width="19"/>
+                                <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" PlacementTarget="{Binding ElementName=PART_TextBox}" StaysOpen="False"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Source={x:Static SystemParameters.HighContrast}}" Value="false">
+                            <Setter Property="Foreground" TargetName="PART_TextBox" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Groupbox-->
+    <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
+    <Style x:Key="GB" TargetType="{x:Type GroupBox}">
+        <Setter Property="BorderBrush" Value="#D5DFE5" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <Grid SnapsToDevicePixels="true">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="6" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="6" />
+                        </Grid.RowDefinitions>
+                        <Border CornerRadius="4" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="4" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="Transparent" Background="{TemplateBinding Background}" />
+                        <Border Name="Header" Padding="3,1,3,0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+                            <ContentPresenter ContentSource="Header" RecognizesAccessKey="true" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                        <ContentPresenter Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <Border Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="4"  BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="3">
+                            <Border.OpacityMask>
+                                <MultiBinding Converter="{StaticResource BorderGapMaskConverter}" ConverterParameter="7">
+                                    <Binding ElementName="Header" Path="ActualWidth" />
+                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                                </MultiBinding>
+                            </Border.OpacityMask>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--test-->
+    <ControlTemplate x:Key="AHEAD" TargetType="DataGridColumnHeader">
+        <Grid ShowGridLines="True">
+            <Rectangle Name="HeaderRect" Width="{TemplateBinding Width}" Fill="LightBlue" Stroke="Black" StrokeThickness="1"  >
+                <Rectangle.Height>
+                    <MultiBinding Converter="{StaticResource HeightConverter}">
+                        <Binding RelativeSource="{RelativeSource AncestorType=DataGrid}" />
+                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="FontSize" />
+                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="FontFamily" />
+                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="FontStyle" />
+                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="FontStretch" />
+                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="FontWeight" />
+                    </MultiBinding>
+                </Rectangle.Height>
+
+                <Rectangle.RenderTransform>
+                    <SkewTransform CenterX="0" CenterY="{Binding ElementName=HeaderRect, Path=Height}" AngleX="-45" AngleY="0"  />
+                </Rectangle.RenderTransform>
+            </Rectangle>
+
+            <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Bottom" HorizontalAlignment="Left" >
+                <ContentPresenter.LayoutTransform>
+                    <RotateTransform Angle="-45"/>
+                </ContentPresenter.LayoutTransform>
+                <ContentPresenter.RenderTransform>
+                    <TranslateTransform  X="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth, Mode=OneWay, Converter={StaticResource WidthConverter}}"  />
+                </ContentPresenter.RenderTransform>
+            </ContentPresenter>
+        </Grid>
+    </ControlTemplate>
+
+    <!--styl dla wierszy w listach-->
+    <Style x:Key="Wiersz1" TargetType="{x:Type DataGridCell}">
+        <Style.Resources>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#33000000" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#33000000"/>
+        </Style.Resources>
+        <Setter Property="Height" Value="22"/>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--styl dla pól PasswordBox z placeholder-em-->
+    <Style x:Key="passPlaceholder" TargetType="{x:Type PasswordBox}">
+        <Setter Property="klasy:RozszerzeniePasswordBox.JestPlaceholder" Value="True" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost" Panel.ZIndex="2" Width="{TemplateBinding Width}" ToolTip="{TemplateBinding Tag}" Background="{TemplateBinding Background}"/>
+                            <TextBlock Text="{TemplateBinding Tag}" Foreground="LightGray" Visibility="Hidden" Name="placeholder_tekst" Panel.ZIndex="1" Width="{TemplateBinding Width}" Background="{TemplateBinding Background}" Padding="2,0,0,0" VerticalAlignment="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+
+
+                        <Trigger Property="klasy:RozszerzeniePasswordBox.DlugoscHasla" Value="0">
+                            <Setter Property="Visibility" TargetName="placeholder_tekst" Value="Visible"/>
+                            <Setter Property="Background" TargetName="PART_ContentHost" Value="Transparent" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- jasno szary gradiend stosowano jako tło-->
+    <RadialGradientBrush x:Key="szaryGradiend" GradientOrigin="1.8,3" Center="0.4,0.1" RadiusX="1.2" RadiusY="1.8">
+        <GradientStop Color="#FFCDD2D6" Offset="0.376"/>
+        <GradientStop Color="#FFCDD2D6" Offset="0.668"/>
+        <GradientStop Color="#FF92A3AD" Offset="0.493"/>
+        <GradientStop Color="#FF92A3AD" Offset="0.601"/>
+    </RadialGradientBrush>
+
+
+    <!--style dla komórek DataGrid-->
+    <Style x:Key="Center" TargetType="{x:Type DataGridCell}">
+        <Setter Property="MinHeight" Value="30"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="BorderThickness" Value="0"/>
+            </Trigger>
+            <Trigger Property="IsEditing" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Grid Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--style dla nagłówków DataGrid-->
+    <Style x:Key="CenterHeader" TargetType="DataGridColumnHeader">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock TextWrapping="Wrap" Text="{Binding}" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+
+</ResourceDictionary>

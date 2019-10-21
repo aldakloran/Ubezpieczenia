@@ -1,0 +1,274 @@
+﻿<Page x:Class="WaslickiUbezpieczenia.Widoki.PageDane"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:WaslickiUbezpieczenia.Widoki"
+      xmlns:ikony="clr-namespace:WaslickiUbezpieczenia.Ikony"
+      xmlns:converters="clr-namespace:WaslickiUbezpieczenia.Widoki.Converters"
+      mc:Ignorable="d"
+      d:DesignHeight="680" MinWidth="800" d:DesignWidth="1393.5"
+      Title="PageDane">
+
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Style_wizualne/Style_glowne.xaml" />
+                <ResourceDictionary Source="/Style_wizualne/Style_ekranow_menu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:KolorDni x:Key="KolorDni"/>
+            <converters:FormatowanieDaty x:Key="FormatowanieDaty"/>
+
+            <Storyboard x:Key="Show_storyboard" Name="Show_me_sb">
+                <DoubleAnimation Storyboard.TargetName="KontenerFiltrow" Storyboard.TargetProperty="Width" From="0" To="226" Duration="0:0:0.5">
+                    <DoubleAnimation.EasingFunction>
+                        <PowerEase EasingMode="EaseIn"></PowerEase>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+
+            <Storyboard x:Key="Hide_storyboard" Name="Hide_me_sb">
+                <DoubleAnimation Storyboard.TargetName="KontenerFiltrow" Storyboard.TargetProperty="Width" From="226" To="0" Duration="0:0:0.5" Completed="Hide_Completed">
+                    <DoubleAnimation.EasingFunction>
+                        <PowerEase EasingMode="EaseIn"></PowerEase>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <DockPanel>
+            <!-- Menu górne -->
+            <Grid DockPanel.Dock="Top" VerticalAlignment="Top" Height="81">
+                <Grid.ColumnDefinitions>
+                    <!--
+                        Kolumna 1  ==> Logo + FR
+                        Kolumna 2  ==> przyciski przypiete z lewej
+                        Kolumna 3  ==> przyciski przypięte z prawej
+                        Kolumna 4  ==> dane dodatkowe w nagłówku np. podsumowanie
+                    -->
+                    <ColumnDefinition Width="226" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <ContentControl Style="{DynamicResource Naglowek_CT}"/>
+
+                <Grid HorizontalAlignment="Left" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" x:Name="Bt_wroc" Width="50" Click="Bt_wroc_Click"
+                            Style="{DynamicResource ProtonPrzycisk}"
+                            ikony:ObslugaIkonyPrzycisku.Image="/Ikony/icons8-go-back-64.png" Content="Wstecz" />
+
+
+                    <Button Grid.Column="1" x:Name="Bt_dodaj" Width="50" Click="Bt_dodaj_OnClick"
+                            Style="{DynamicResource ProtonPrzycisk}"
+                            ikony:ObslugaIkonyPrzycisku.Image="/Ikony/icons8-add-user-male-64.png" Content="Dodaj" />
+
+                    <Button Grid.Column="2" x:Name="Bt_usun" Width="50" Click="Bt_usun_OnClick"
+                            Style="{DynamicResource ProtonPrzycisk}"
+                            ikony:ObslugaIkonyPrzycisku.Image="/Ikony/icons8-remove-user-64.png" Content="Usuń" />
+
+                    <Button Grid.Column="3" x:Name="Bt_szukaj" Width="50" Click="Bt_szukaj_OnClick"
+                            Style="{DynamicResource ProtonPrzycisk}"
+                            ikony:ObslugaIkonyPrzycisku.Image="/Ikony/icons8-search-64.png" Content="Szukaj" />
+                </Grid>
+                <Grid HorizontalAlignment="Right" Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" x:Name="Bt_wklej" Width="50" Click="Bt_wklej_Click"
+                            Style="{DynamicResource ProtonPrzycisk}"
+                            ikony:ObslugaIkonyPrzycisku.Image="/Ikony/icons8-spreadsheet-file-64 (1).png" Content="Wklej" />
+                </Grid>
+            </Grid>
+
+            <!-- kontener "ekranów" -->
+            <Grid>
+
+                <Grid HorizontalAlignment="Left"
+                      ZIndex="1">
+
+                    <Border BorderThickness="1" BorderBrush="#FF688CAD" 
+                            Width="0" Visibility="Collapsed"
+                            Name="KontenerFiltrow"
+                            HorizontalAlignment="Left"
+
+                            Background="GhostWhite">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="159"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Column="0" Grid.Row="0" Content="Nazwisko:" FontWeight="DemiBold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <Label Grid.Column="0" Grid.Row="1" Content="Imię:" FontWeight="DemiBold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <Label Grid.Column="0" Grid.Row="2" Content="Firma:" FontWeight="DemiBold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <Label Grid.Column="0" Grid.Row="3" Content="Numer telefonu:" FontWeight="DemiBold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <Label Grid.Column="0" Grid.Row="4" Content="Opis:" FontWeight="DemiBold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <Label Grid.Column="0" Grid.Row="5" Content="Data rozpoczęcia:" FontWeight="DemiBold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <Label Grid.Column="0" Grid.Row="6" Content="Data zakończenia:" FontWeight="DemiBold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                            <TextBox Grid.Column="1" Grid.Row="0" Margin="2" Style="{StaticResource placeholder}" Tag="Nazwisko" Name="Nazwisko_tb" TextChanged="TextBox_OnTextChanged"/>
+                            <TextBox Grid.Column="1" Grid.Row="1" Margin="2" Style="{StaticResource placeholder}" Tag="Imię" Name="Imie_tb" TextChanged="TextBox_OnTextChanged"/>
+                            <TextBox Grid.Column="1" Grid.Row="2" Margin="2" Style="{StaticResource placeholder}" Tag="Firma" Name="Firma_tb" TextChanged="TextBox_OnTextChanged"/>
+                            <TextBox Grid.Column="1" Grid.Row="3" Margin="2" Style="{StaticResource placeholder}" Tag="Telefon" Name="Telefon_tb" TextChanged="TextBox_OnTextChanged"/>
+                            <TextBox Grid.Column="1" Grid.Row="4" Margin="2" Style="{StaticResource placeholder}" Tag="Opis" VerticalContentAlignment="Center" TextAlignment="Left" TextWrapping="WrapWithOverflow" Height="70" Name="Opis_tb" AcceptsReturn="True" AcceptsTab="True" TextChanged="TextBox_OnTextChanged"/>
+                            <DatePicker Grid.Column="1" Grid.Row="5" Margin="2" Style="{StaticResource DatePickerStyle1}" Background="White" Name="Data_rozpoczecia_tb" SelectedDateChanged="DatePicker_OnSelectedDateChanged"/>
+                            <DatePicker Grid.Column="1" Grid.Row="6" Margin="2" Style="{StaticResource DatePickerStyle1}" Background="White" Name="Data_zakonczenia_tb" SelectedDateChanged="DatePicker_OnSelectedDateChanged"/>
+                        </Grid>
+                    </Border>
+
+                </Grid>
+
+                <DataGrid Name="DaneDg"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          HorizontalScrollBarVisibility="Disabled"
+                          AutoGenerateColumns="False"
+                          RowDetailsVisibilityMode="Collapsed"
+                          SelectionMode="Extended"
+                          AreRowDetailsFrozen="False"
+                          ClipboardCopyMode="IncludeHeader"
+                          IsReadOnly="False"
+                          CanUserSortColumns="False"
+                          HeadersVisibility="Column">
+
+                    <DataGrid.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#4C000000" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                             Color="#4C000000" />
+
+                        <Style x:Key="Word_wrap_style_view" TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="Margin" Value="5,2,5,2" />
+                        </Style>
+
+                        <Style x:Key="Word_wrap_style_view_edit" TargetType="{x:Type TextBox}">
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="2" />
+                        </Style>
+
+                        <Style x:Key="Center" TargetType="{x:Type DataGridCell}">
+                            <Setter Property="MinHeight" Value="40" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                        <Grid Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center"
+                                                                  HorizontalAlignment="Center" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Trigger>
+                                <Trigger Property="IsEditing" Value="True">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                <Grid Background="{TemplateBinding Background}">
+                                                    <ContentPresenter VerticalAlignment="Stretch"
+                                                                          HorizontalAlignment="Stretch" />
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+
+                    </DataGrid.Resources>
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource CenterHeader}">
+                            <Setter Property="FontWeight" Value="DemiBold" />
+                            <Setter Property="FontSize" Value="12" />
+                            <!--<Setter Property="Height" Value="24" />-->
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <!--<EventSetter Event="MouseDoubleClick" Handler="Row_rozkroje_DoubleClick"/>-->
+                            <!--<Setter Property="Background" Value="#3F727272" />-->
+                            <!--<Setter Property="Background" Value="#CCFFCC" />-->
+                            <Setter Property="FontSize" Value="13" />
+                            <Setter Property="TextBlock.FontWeight" Value="DemiBold" />
+
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Setter Property="BorderThickness" Value="3,5,3,5" />
+                        </Style>
+                    </DataGrid.RowStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nazwisko" 
+                                            Binding="{Binding Nazwisko}" Width="0.7*"
+                                            CellStyle="{StaticResource Center}" />
+                        <DataGridTextColumn Header="Imię" 
+                                            Binding="{Binding Imie}" Width="0.7*"
+                                            CellStyle="{StaticResource Center}" />
+                        <DataGridTextColumn Header="Firma" 
+                                            Binding="{Binding Firma}" Width="0.7*"
+                                            CellStyle="{StaticResource Center}" />
+                        <DataGridTextColumn Header="Składka [zł]" 
+                                            Binding="{Binding Skladka, StringFormat=#.##}" Width="0.7*"
+                                            CellStyle="{StaticResource Center}" />
+                        <DataGridTextColumn Header="Numer telefonu" 
+                                            Binding="{Binding NumerTelefonu}" Width="0.8*"
+                                            CellStyle="{StaticResource Center}" />
+                        <DataGridTextColumn Header="Opis" 
+                                            Binding="{Binding Opis}" Width="2*"
+                                            CellStyle="{StaticResource Center}" 
+                                            ElementStyle="{StaticResource Word_wrap_style_view}"/>
+                        <DataGridTextColumn Header="Data rozpoczęcia" 
+                                            Binding="{Binding DataRozpoczecia, Converter={StaticResource FormatowanieDaty}}" Width="0.6*"
+                                            CellStyle="{StaticResource Center}" />
+                        <DataGridTextColumn Header="Data zakończenia" 
+                                            Binding="{Binding DataZakonczenia, Converter={StaticResource FormatowanieDaty}}" Width="0.6*"
+                                            CellStyle="{StaticResource Center}" />
+                        <DataGridTextColumn Header="Pozostałe dni" 
+                                            Binding="{Binding PozostaleDni}" Width="0.4*" MinWidth="70"
+                                            IsReadOnly="True">
+
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource Center}">
+                                    <Setter Property="Foreground" Value="{Binding PozostaleDni, Converter={StaticResource KolorDni}}"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </Grid>
+
+        </DockPanel>
+    </Grid>
+</Page>
